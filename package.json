@@ -1,0 +1,15 @@
+{
+  "name": "fragments",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Project Repository for DPS955 Labs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shervintafreshi/fragments.git"
+  },
+  "author": "Shervin Tafreshipour",
+  "license": "UNLICENSED"
+}
