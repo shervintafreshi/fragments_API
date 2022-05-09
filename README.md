@@ -1,6 +1,6 @@
-# fragments
+# Fragments
 
-Project Repository for DPS955 Labs
+Project repository for DPS955 labs.
 
 ## Script Execution
 
