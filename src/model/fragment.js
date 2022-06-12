@@ -1,8 +1,5 @@
-// Use https://www.npmjs.com/package/content-type to create/parse Content-Type headers
+// Parse/create content-type headers
 const contentType = require('content-type');
-
-// Use https://www.npmjs.com/package/nanoid to create unique IDs
-// const { nanoid } = require('nanoid');
 
 // Functions for working with fragment metadata/data using our DB
 const {
