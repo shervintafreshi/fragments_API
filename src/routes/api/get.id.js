@@ -1,6 +1,5 @@
 // src/routes/api/get.id.js
 
-const { createSuccessResponse } = require('../../../src/response');
 const { createErrorResponse } = require('../../../src/response');
 
 const Fragment = require('../../model/fragment');
@@ -28,11 +27,8 @@ module.exports = (req, res) => {
       fragment
         .getData()
         .then((data) => {
-          // Send a 200 'OK' response
-          const responseData = createSuccessResponse({
-            data,
-          });
-          res.status(200).json(responseData);
+          res.setHeader('content-type', 'text/plain');
+          res.status(200).send(data);
         })
         .catch((error) => {
           // Send a 404 'error' response
