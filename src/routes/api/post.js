@@ -1,3 +1,5 @@
+// src/routes/api/post.js
+
 const { createSuccessResponse } = require('../../../src/response');
 const { createErrorResponse } = require('../../../src/response');
 
@@ -23,24 +25,34 @@ module.exports = (req, res) => {
   if (supported) {
     // add the fragment to the DB
     const fragment = new Fragment(id, ownerId, isoDate, isoDate, contentType, size);
-    fragment.save().then(() => {
-      fragment.setData(req.body).then(() => {
-        // Send a 201 'OK' response
-        const responseData = createSuccessResponse({
-          fragments: {
-            id: id,
-            ownerId: ownerId,
-            created: isoDate,
-            updated: isoDate,
-            type: contentType,
-            size: size,
-          },
-        });
+    console.log(fragment);
+    fragment
+      .save()
+      .then(() => {
+        fragment
+          .setData(req.body.toString())
+          .then(() => {
+            const responseData = createSuccessResponse({
+              fragments: {
+                id: id,
+                ownerId: ownerId,
+                created: isoDate,
+                updated: isoDate,
+                type: contentType,
+                size: size,
+              },
+            });
 
-        res.location('http://localhost:8080/v1/fragments/' + id);
-        res.status(201).json(responseData);
+            res.location('http://localhost:8080/v1/fragments/' + id);
+            res.status(201).json(responseData);
+          })
+          .catch((error) => {
+            console.log('Error called here' + error);
+          });
+      })
+      .catch((error) => {
+        console.log('Error called here ' + error);
       });
-    });
   } else {
     // Send a 415 'error' response
     const responseData = createErrorResponse(415, 'Content-Type not currently Supported');

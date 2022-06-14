@@ -9,10 +9,10 @@ const {
   writeFragmentData,
   listFragments,
   deleteFragment,
-} = require('./data');
+} = require('./data/memory');
 
 class Fragment {
-  constructor({ id, ownerId, created, updated, type, size = 0 }) {
+  constructor(id, ownerId, created, updated, type, size = 0) {
     this.id = id;
     this.ownerId = ownerId;
     this.created = created;
@@ -28,13 +28,7 @@ class Fragment {
    * @returns Promise<Array<Fragment>>
    */
   static async byUser(ownerId, expand = false) {
-    listFragments(ownerId, expand)
-      .then((data) => {
-        return Promise.resolve(data);
-      })
-      .catch((error) => {
-        return Promise.reject(error);
-      });
+    return listFragments(ownerId, expand);
   }
 
   /**
@@ -44,13 +38,7 @@ class Fragment {
    * @returns Promise<Fragment>
    */
   static async byId(ownerId, id) {
-    readFragment(ownerId, id)
-      .then((data) => {
-        return Promise.resolve(data);
-      })
-      .catch((error) => {
-        return Promise.reject(error);
-      });
+    return readFragment(ownerId, id);
   }
 
   /**
@@ -60,13 +48,7 @@ class Fragment {
    * @returns Promise
    */
   static async delete(ownerId, id) {
-    deleteFragment(ownerId, id)
-      .then(() => {
-        return Promise.resolve();
-      })
-      .catch((error) => {
-        return Promise.reject(error);
-      });
+    return deleteFragment(ownerId, id);
   }
 
   /**
@@ -85,9 +67,11 @@ class Fragment {
 
     writeFragment(currentFragment)
       .then(() => {
+        console.log('Write Fragment success');
         return Promise.resolve();
       })
       .catch((error) => {
+        console.log('Write Fragment failure');
         return Promise.reject(error);
       });
   }
@@ -97,13 +81,7 @@ class Fragment {
    * @returns Promise<Buffer>
    */
   async getData() {
-    readFragmentData(this.ownerId, this.id)
-      .then((data) => {
-        return Promise.resolve(data);
-      })
-      .catch((error) => {
-        return Promise.reject(error);
-      });
+    return readFragmentData(this.ownerId, this.id);
   }
 
   /**
@@ -112,13 +90,7 @@ class Fragment {
    * @returns Promise
    */
   async setData(data) {
-    writeFragmentData(this.ownerId, this.id, data)
-      .then(() => {
-        return Promise.resolve();
-      })
-      .then((error) => {
-        return Promise.reject(error);
-      });
+    return writeFragmentData(this.ownerId, this.id, data);
   }
 
   /**
@@ -165,4 +137,4 @@ class Fragment {
   }
 }
 
-module.exports.Fragment = Fragment;
+module.exports = Fragment;
