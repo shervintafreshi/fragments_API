@@ -31,7 +31,7 @@ module.exports = (req, res) => {
           res.status(200).send(data);
         })
         .catch((error) => {
-          // Send a 404 'error' response
+          // Send a 500 'error' response
           const responseData = createErrorResponse(500, 'Failed to get user data: ' + error);
           res.status(500).json(responseData);
         });
