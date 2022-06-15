@@ -24,8 +24,14 @@ module.exports = (req, res) => {
   // Send an appropriate response
   if (supported) {
     // add the fragment to the DB
-    const fragment = new Fragment(id, ownerId, isoDate, isoDate, contentType, size);
-    console.log(fragment);
+    const fragment = new Fragment({
+      id: id,
+      ownerId: ownerId,
+      created: isoDate,
+      updated: isoDate,
+      type: contentType,
+      size: size,
+    });
     fragment
       .save()
       .then(() => {

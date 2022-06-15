@@ -12,7 +12,7 @@ const {
 } = require('./data/memory');
 
 class Fragment {
-  constructor(id, ownerId, created, updated, type, size = 0) {
+  constructor({ id, ownerId, created, updated, type, size = 0 }) {
     this.id = id;
     this.ownerId = ownerId;
     this.created = created;
@@ -56,14 +56,14 @@ class Fragment {
    * @returns Promise
    */
   async save() {
-    const currentFragment = new Fragment(
-      this.id,
-      this.ownerId,
-      this.created,
-      this.updated,
-      this.type,
-      this.size
-    );
+    const currentFragment = new Fragment({
+      id: this.id,
+      ownerId: this.ownerId,
+      created: this.created,
+      updated: this.updated,
+      type: this.type,
+      size: this.size,
+    });
 
     writeFragment(currentFragment)
       .then(() => {
@@ -100,7 +100,8 @@ class Fragment {
    */
   get mimeType() {
     const { type } = contentType.parse(this.type);
-    return type;
+    const mimeType = type.substring(0, type.indexOf(';') + 1);
+    return mimeType;
   }
 
   /**
@@ -132,7 +133,7 @@ class Fragment {
    */
   static isSupportedType(value) {
     // Define support types
-    const supportedTypes = ['text/plain', 'text/plain: charset=utf-8'];
+    const supportedTypes = ['text/plain', 'text/plain; charset=utf-8'];
     return supportedTypes.includes(value);
   }
 }

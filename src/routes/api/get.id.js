@@ -15,14 +15,14 @@ module.exports = (req, res) => {
 
   Fragment.byId(ownerId, id)
     .then((data) => {
-      const fragment = new Fragment(
-        data.id,
-        data.ownerId,
-        data.created,
-        data.updated,
-        data.type,
-        data.size
-      );
+      const fragment = new Fragment({
+        id: data.id,
+        ownerId: data.ownerId,
+        created: data.created,
+        updated: data.updated,
+        type: data.type,
+        size: data.size,
+      });
 
       fragment
         .getData()
