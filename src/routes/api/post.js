@@ -32,6 +32,7 @@ module.exports = (req, res) => {
       type: contentType,
       size: size,
     });
+
     fragment
       .save()
       .then(() => {

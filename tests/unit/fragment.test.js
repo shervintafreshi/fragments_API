@@ -190,7 +190,7 @@ describe('Fragment class', () => {
       await wait();
       await fragment.save();
       const fragment2 = await Fragment.byId(ownerId, fragment.id);
-      expect(Date.parse(fragment2.updated)).toBeGreaterThan(Date.parse(modified1));
+      expect(fragment2.updated.getTime()).toBeGreaterThan(modified1.getTime());
     });
 
     test('setData() updates the updated date/time of a fragment', async () => {
@@ -203,7 +203,7 @@ describe('Fragment class', () => {
       await fragment.setData(data);
       await wait();
       const fragment2 = await Fragment.byId(ownerId, fragment.id);
-      expect(Date.parse(fragment2.updated)).toBeGreaterThan(Date.parse(modified1));
+      expect(fragment2.updated.getTime()).toBeGreaterThan(modified1.getTime());
     });
 
     test("a fragment is added to the list of a user's fragments", async () => {
@@ -222,7 +222,6 @@ describe('Fragment class', () => {
       const fragment = new Fragment({ ownerId, type: 'text/plain', size: 0 });
       await fragment.save();
       await fragment.setData(data);
-
       expect(await Fragment.byUser(ownerId, true)).toEqual([fragment]);
     });
 
@@ -235,18 +234,16 @@ describe('Fragment class', () => {
       const fragment = new Fragment({ ownerId: '1234', type: 'text/plain', size: 0 });
       await fragment.save();
       await fragment.setData(Buffer.from('a'));
-      expect(fragment.size).toBe(1);
+      await expect(fragment.size).toBe(1);
 
       await fragment.setData(Buffer.from('aa'));
-      const { size } = await Fragment.byId('1234', fragment.id);
-      expect(size).toBe(2);
+      expect(fragment.size).toBe(2);
     });
 
     test('a fragment can be deleted', async () => {
       const fragment = new Fragment({ ownerId: '1234', type: 'text/plain', size: 0 });
       await fragment.save();
       await fragment.setData(Buffer.from('a'));
-
       await Fragment.delete('1234', fragment.id);
       expect(() => Fragment.byId('1234', fragment.id)).rejects.toThrow();
     });

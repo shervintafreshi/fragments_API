@@ -1,5 +1,6 @@
 // Parse/create content-type headers
 const contentType = require('content-type');
+const { nanoid } = require('nanoid');
 
 // Functions for working with fragment metadata/data using our DB
 const {
@@ -13,10 +14,37 @@ const {
 
 class Fragment {
   constructor({ id, ownerId, created, updated, type, size = 0 }) {
-    this.id = id;
+    if (typeof ownerId === 'undefined' || typeof type === 'undefined') {
+      throw new Error('OwnerId and Type must be defined');
+    }
+
+    if (typeof size !== 'number') {
+      throw new Error('size must be a number');
+    } else if (size < 0) {
+      throw new Error('size must be greater than 0');
+    }
+
+    const supportedTypes = ['text/plain', 'text/plain; charset=utf-8'];
+    if (!supportedTypes.includes(type)) {
+      throw new Error('type is not supported');
+    }
+
+    if (typeof created === 'undefined' || typeof updated === 'undefined') {
+      const isoDate = new Date();
+      this.created = isoDate;
+      this.updated = isoDate;
+    } else {
+      this.created = created;
+      this.updated = updated;
+    }
+
+    if (typeof id === 'undefined') {
+      this.id = nanoid();
+    } else {
+      this.id = id;
+    }
+
     this.ownerId = ownerId;
-    this.created = created;
-    this.updated = updated;
     this.type = type;
     this.size = size;
   }
@@ -38,7 +66,11 @@ class Fragment {
    * @returns Promise<Fragment>
    */
   static async byId(ownerId, id) {
-    return readFragment(ownerId, id);
+    const result = await readFragment(ownerId, id);
+    if (typeof result === 'undefined') {
+      return Promise.reject(new Error());
+    }
+    return result;
   }
 
   /**
@@ -56,24 +88,17 @@ class Fragment {
    * @returns Promise
    */
   async save() {
+    const isoDate = new Date();
     const currentFragment = new Fragment({
       id: this.id,
       ownerId: this.ownerId,
       created: this.created,
-      updated: this.updated,
+      updated: isoDate,
       type: this.type,
       size: this.size,
     });
 
-    writeFragment(currentFragment)
-      .then(() => {
-        console.log('Write Fragment success');
-        return Promise.resolve();
-      })
-      .catch((error) => {
-        console.log('Write Fragment failure');
-        return Promise.reject(error);
-      });
+    return writeFragment(currentFragment);
   }
 
   /**
@@ -90,6 +115,13 @@ class Fragment {
    * @returns Promise
    */
   async setData(data) {
+    if (typeof data === 'undefined') {
+      throw new Error('Data provided must be of type Buffer');
+    }
+    // update the size property based on the buffer size
+    this.size = Buffer.byteLength(data);
+    // save the updated fragment size
+    this.save();
     return writeFragmentData(this.ownerId, this.id, data);
   }
 
@@ -100,8 +132,7 @@ class Fragment {
    */
   get mimeType() {
     const { type } = contentType.parse(this.type);
-    const mimeType = type.substring(0, type.indexOf(';') + 1);
-    return mimeType;
+    return type;
   }
 
   /**
@@ -109,7 +140,8 @@ class Fragment {
    * @returns {boolean} true if fragment's type is text/*
    */
   get isText() {
-    return this.type.substring(0, 5) == 'text/';
+    const result = this.type.substring(0, 5) == 'text/';
+    return result;
   }
 
   /**
@@ -119,8 +151,8 @@ class Fragment {
   get formats() {
     let conversionTypes = [];
     // Currently supporting the text/plain data mime-type
-    if (this.type == 'text/plain') {
-      conversionTypes.push('.txt');
+    if (this.type == 'text/plain' || this.type == 'text/plain; charset=utf-8') {
+      conversionTypes.push('text/plain');
     }
 
     return conversionTypes;
