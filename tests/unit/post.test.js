@@ -12,7 +12,7 @@ describe('POST /v1/fragments', () => {
   test('incorrect credentials are denied', () =>
     request(app).post('/v1/fragments').auth('invalid@email.com', 'incorrect_password').expect(401));
 
-  // Using a valid username/password pair should give a success result with a locations headers
+  // Using a valid username/password pair should give return HTTP 200 response
   test('authenticated requests return a HTTP 201 Response', async () => {
     const res = await request(app)
       .post('/v1/fragments')
@@ -23,6 +23,7 @@ describe('POST /v1/fragments', () => {
     expect(res.body.status).toBe('ok');
   });
 
+  // Using a valid username/password pair should give a locations header
   test('authenticated requests return a location header', async () => {
     const res = await request(app)
       .post('/v1/fragments')
