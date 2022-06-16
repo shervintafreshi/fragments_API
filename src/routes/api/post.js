@@ -40,7 +40,7 @@ module.exports = (req, res) => {
           .setData(req.body.toString())
           .then(() => {
             const responseData = createSuccessResponse({
-              fragments: {
+              fragment: {
                 id: id,
                 ownerId: ownerId,
                 created: isoDate,
