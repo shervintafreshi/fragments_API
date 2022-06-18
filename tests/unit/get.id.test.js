@@ -10,7 +10,7 @@ describe('GET /v1/fragments/:id', () => {
   test('incorrect credentials are denied', () =>
     request(app).get('/v1/fragments').auth('invalid@email.com', 'incorrect_password').expect(401));
 
-  // Using a valid username/password pair should give a back the text fragment result
+  // Using a valid username/password pair should give a back 200 HTTP Response
   test('authenticated requests return a HTTP 200 Response', async () => {
     const res1 = await request(app)
       .post('/v1/fragments')
@@ -24,7 +24,7 @@ describe('GET /v1/fragments/:id', () => {
     expect(res2.statusCode).toBe(200);
   });
 
-  // Using a valid username/password pair should give a back the text fragment result
+  // Using a valid username/password pair should give a back the text fragment
   test('authenticated requests return a text fragment when a valid ID is passed', async () => {
     const res1 = await request(app)
       .post('/v1/fragments')
