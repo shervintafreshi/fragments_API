@@ -25,7 +25,7 @@ describe('GET /v1/fragments/:id', () => {
   });
 
   // Using a valid username/password pair should give a back the text fragment result
-  test('authenticated requests return a HTTP 200 Response', async () => {
+  test('authenticated requests return a text fragment when a valid ID is passed', async () => {
     const res1 = await request(app)
       .post('/v1/fragments')
       .auth('user1@email.com', 'password1')
