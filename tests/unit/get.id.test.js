@@ -28,8 +28,8 @@ describe('GET /v1/fragments/:id', () => {
     expect(res2.statusCode).toBe(200);
   });
 
-  // Using a valid username/password pair should give a back the text fragment
-  test('authenticated requests return a text fragment when a valid ID is passed', async () => {
+  // Using a valid username/password pair should give back the text fragment
+  test('authenticated requests return a text fragment when a valid ID is given', async () => {
     const res1 = await request(app)
       .post('/v1/fragments')
       .auth('user1@email.com', 'password1')

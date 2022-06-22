@@ -1,8 +1,9 @@
 //tests/unit/post.test.js
 
 const request = require('supertest');
-
 const app = require('../../src/app');
+
+const apiUrl = process.env.API_URL || 'http://localhost:8080';
 
 describe('POST /v1/fragments', () => {
   // If the request is missing the Authorization header, it should be forbidden
@@ -23,8 +24,8 @@ describe('POST /v1/fragments', () => {
     expect(res.body.status).toBe('ok');
   });
 
-  // Using a valid username/password pair should give a locations header
-  test('authenticated requests return a location header', async () => {
+  // Using a valid username/password pair should give a location header
+  test('authenticated requests return a location header that is properly formatted', async () => {
     const res = await request(app)
       .post('/v1/fragments')
       .auth('user1@email.com', 'password1')
@@ -33,5 +34,6 @@ describe('POST /v1/fragments', () => {
     expect(res.statusCode).toBe(201);
     expect(res.body.status).toBe('ok');
     expect(res.header).toHaveProperty('location');
+    expect(res.header['location']).toBe(apiUrl + '/v1/fragments/' + res.body.fragment.id);
   });
 });

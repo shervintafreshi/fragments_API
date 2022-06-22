@@ -8,26 +8,18 @@ const crypto = require('crypto');
 /**
  * Retrieve a fragment's data from the database
  */
+
 module.exports = (req, res) => {
   // retrieve the fragment from the database
-  const ownerId = crypto.createHash('sha256').update('userEmail').digest('base64');
+  const ownerId = crypto.createHash('sha256').update(req.user).digest('base64');
   const id = req.params.id;
 
   Fragment.byId(ownerId, id)
-    .then((data) => {
-      const fragment = new Fragment({
-        id: data.id,
-        ownerId: data.ownerId,
-        created: data.created,
-        updated: data.updated,
-        type: data.type,
-        size: data.size,
-      });
-
+    .then((fragment) => {
       fragment
         .getData()
         .then((data) => {
-          res.setHeader('content-type', 'text/plain');
+          res.setHeader('content-type', fragment.type);
           res.status(200).send(data);
         })
         .catch((error) => {
