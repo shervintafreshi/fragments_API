@@ -8,9 +8,7 @@ const crypto = require('crypto');
 /**
  * Retrieve a fragment's data from the database
  */
-
 module.exports = (req, res) => {
-  // retrieve the fragment from the database
   const ownerId = crypto.createHash('sha256').update(req.user).digest('base64');
   const id = req.params.id;
 

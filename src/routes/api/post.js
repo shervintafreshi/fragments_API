@@ -43,7 +43,6 @@ module.exports = (req, res) => {
                 size: fragment.size,
               },
             });
-
             res.location(apiUrl + '/v1/fragments/' + fragment.id);
             res.status(201).json(responseData);
           })
