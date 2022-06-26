@@ -1,7 +1,10 @@
 # Dockerfile that outline steps to containerize the fragments API microservice
 
 # use node version 16.15.1
-FROM node:16.15.1
+FROM node:16.15.1-alpine
+
+# Install lightweight init system
+RUN apk add dumb-init
 
 # Metadata
 LABEL maintainer="Shervin Tafreshipour <stafreshipour@myseneca.ca>"
@@ -18,26 +21,32 @@ ENV NPM_CONFIG_LOGLEVEL=warn
 # https://docs.npmjs.com/cli/v8/using-npm/config#color
 ENV NPM_CONFIG_COLOR=false
 
+# Optimizing Node.js tooling for production
+ENV NODE_ENV production
+
 # Define a working directory
 WORKDIR /app
 
-# Copy the package.json and package-lock.json files into /app
-COPY package*.json /app/
+# Ensure 'node' user has access to working directory
+RUN chown -R node:node /app
 
-# Copy the package.json and package-lock.json files into the working dir (/app)
-COPY package*.json ./
+# Copy the package.json and package-lock.json files into /app
+COPY --chown=node:node package*.json /app/
 
 # Install node dependencies defined in package-lock.json
-RUN npm install
+RUN npm ci --only=production
 
 # Copy src to /app/src/
-COPY ./src ./src
+COPY --chown=node:node ./src ./src
 
 # Copy our HTPASSWD file
-COPY ./tests/.htpasswd ./tests/.htpasswd
+COPY --chown=node:node ./tests/.htpasswd ./tests/.htpasswd
+
+# Define a non-root user
+USER node
 
 # Start the container by running our server
-CMD npm start
+CMD ["dumb-init", "node", "server.js"]
 
 # We run our service on port 8080
 EXPOSE 8080
