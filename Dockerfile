@@ -5,6 +5,8 @@ FROM node:16.15.1-alpine
 
 # Install lightweight init system
 RUN apk add dumb-init
+
+# Install curl for faciliate healthcheck
 RUN apk add curl
 
 # Metadata
@@ -15,11 +17,9 @@ LABEL description="Fragments node.js microservice"
 ENV port=8080
 
 # Reduce npm logging level when installing within Docker
-# https://docs.npmjs.com/cli/v8/using-npm/config#loglevel
 ENV NPM_CONFIG_LOGLEVEL=warn
 
 # Disable colour when run inside Docker
-# https://docs.npmjs.com/cli/v8/using-npm/config#color
 ENV NPM_CONFIG_COLOR=false
 
 # Optimizing Node.js tooling for production
@@ -32,7 +32,7 @@ WORKDIR /app
 RUN chown -R node:node /app
 
 # Copy the package.json and package-lock.json files into /app
-COPY --chown=node:node package*.json /app/
+COPY package*.json /app/
 
 # Install node dependencies defined in package-lock.json
 RUN npm ci --only=production
@@ -47,11 +47,11 @@ COPY --chown=node:node ./tests/.htpasswd ./tests/.htpasswd
 USER node
 
 # Start the container by running our server
-CMD ["dumb-init", "node", "server.js"]
+CMD ["dumb-init", "node", "./src/index.js"]
 
 # We run our service on port 8080
 EXPOSE 8080
 
 # Define a healthcheck rountine
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-  CMD curl --fail localhost:8080 || exit 1
+HEALTHCHECK --retries=3 --start-period=10s \
+  CMD curl --fail http://localhost:8080 || exit 1
