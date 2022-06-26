@@ -54,4 +54,4 @@ EXPOSE 8080
 
 # Define a healthcheck rountine
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-  CMD curl --fail localhost:4444 || exit 1
+  CMD curl --fail localhost:8080 || exit 1
