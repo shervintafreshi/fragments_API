@@ -5,6 +5,7 @@ FROM node:16.15.1-alpine
 
 # Install lightweight init system
 RUN apk add dumb-init
+RUN apk add curl
 
 # Metadata
 LABEL maintainer="Shervin Tafreshipour <stafreshipour@myseneca.ca>"
@@ -50,3 +51,7 @@ CMD ["dumb-init", "node", "server.js"]
 
 # We run our service on port 8080
 EXPOSE 8080
+
+# Define a healthcheck rountine
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+  CMD curl --fail localhost:4444 || exit 1
