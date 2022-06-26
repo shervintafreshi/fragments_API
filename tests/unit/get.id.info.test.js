@@ -14,7 +14,7 @@ describe('GET /v1/fragments/:id/info', () => {
       .expect(401));
 
   // Using a valid username/password pair and fragment id should return HTTP 200 response
-  test('authenticated requests return a HTTP 200 Response', async () => {
+  test('valid authenticated requests return a HTTP 200 Response', async () => {
     const res1 = await request(app)
       .post('/v1/fragments')
       .auth('user1@email.com', 'password1')
