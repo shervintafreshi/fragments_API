@@ -29,7 +29,7 @@ describe('GET /v1/fragments/:id/info', () => {
   });
 
   // Using a valid username/password pair and fragment id should return fragment metadata
-  test('valid authenticated requests returns properly formatted fragment metadata', async () => {
+  test('valid authenticated requests return properly formatted fragment metadata object', async () => {
     const res1 = await request(app)
       .post('/v1/fragments')
       .auth('user1@email.com', 'password1')
