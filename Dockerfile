@@ -3,8 +3,7 @@
 # use node version 16.15.1
 FROM node:16.15.1-alpine
 
-# Install lightweight init system
-# Install curl for faciliate healthcheck
+# Install lightweight init system and curl for healthcheck routine
 RUN apk --no-cache add dumb-init=1.2.5-r1 \
     && add curl=7.55.0-r2
 
