@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       # Use buildx, which is faster and can optimize the build steps
       - name: Set up Docker Buildx
