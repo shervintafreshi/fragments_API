@@ -5,7 +5,7 @@ FROM node:16.15.1-alpine
 
 # Install lightweight init system and curl for healthcheck routine
 RUN apk --no-cache add dumb-init=1.2.5-r1 \
-  && apk --no-cache add curl=7.55.0-r2
+  && apk --no-cache add curl=7.83.1-r2
 
 # Metadata
 LABEL maintainer="Shervin Tafreshipour <stafreshipour@myseneca.ca>"
