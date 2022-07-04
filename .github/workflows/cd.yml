@@ -26,10 +26,9 @@ jobs:
     name: AWS
     runs-on: ubuntu-latest
     steps:
-      # Checkout code from Repo
       - name: Check out code
       - uses: actions/checkout@v2
-      
+
       # Use buildx, which is faster and can optimize the build steps
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -48,7 +47,7 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-  
+
       # Build and Push an Image to Amazon ECR
       - name: Build and push to Amazon ECR
         env:
