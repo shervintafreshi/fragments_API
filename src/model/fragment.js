@@ -153,6 +153,8 @@ class Fragment {
     // Currently supporting the text/plain data mime-type
     if (this.type == 'text/plain' || this.type == 'text/plain; charset=utf-8') {
       conversionTypes.push('text/plain');
+    } else if (this.type == 'text/markdown') {
+      conversionTypes.push('text/html');
     }
 
     return conversionTypes;
@@ -165,7 +167,13 @@ class Fragment {
    */
   static isSupportedType(value) {
     // Define support types
-    const supportedTypes = ['text/plain', 'text/plain; charset=utf-8'];
+    const supportedTypes = [
+      'text/plain',
+      'text/plain; charset=utf-8',
+      'text/markdown',
+      'text/html',
+      'application/json',
+    ];
     return supportedTypes.includes(value);
   }
 }
