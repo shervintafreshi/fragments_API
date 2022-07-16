@@ -24,8 +24,7 @@ class Fragment {
       throw new Error('size must be greater than 0');
     }
 
-    const supportedTypes = ['text/plain', 'text/plain; charset=utf-8'];
-    if (!supportedTypes.includes(type)) {
+    if (!Fragment.isSupportedType(type)) {
       throw new Error('type is not supported');
     }
 
