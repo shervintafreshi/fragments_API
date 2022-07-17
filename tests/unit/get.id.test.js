@@ -41,4 +41,19 @@ describe('GET /v1/fragments/:id', () => {
       .auth('user1@email.com', 'password1');
     expect(res2.text).toBe('This is a text fragment');
   });
+
+  // Using valid credentials to request for markdown content to be converted to HTML works
+  test('authenticated requests for markdown content converted to HTML work properly', async () => {
+    const res1 = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'text/markdown')
+      .send('# This is a fragment');
+
+    const res2 = await request(app)
+      .get(`/v1/fragments/${res1.body.fragment.id}.html`)
+      .auth('user1@email.com', 'password1');
+    expect(res2.statusCode).toBe(200);
+    expect(res2.text).toEqual('<h1>This is a fragment</h1>');
+  });
 });
