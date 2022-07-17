@@ -10,6 +10,6 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
-    "no-useless-escape": false,
+    "no-useless-escape": 0,
   },
 };
