@@ -9,11 +9,11 @@ const crypto = require('crypto');
 const apiUrl = process.env.API_URL || 'http://localhost:8080';
 
 /**
- * Save the user-provided Fragment to the In-Memory DBerId,
+ * Save the user-provided Fragment to the In-Memory DB
  */
 module.exports = (req, res) => {
   // Generate and Retrieve the required fragment properties
-  const ownerId = crypto.createHash('sha256').update(req.user).digest('base64');
+  const ownerId = crypto.createHash('sha256').update(req.user).digest('hex').substring(0, 8);
   const contentType = req.headers['content-type'];
 
   // verify the content-type is supported

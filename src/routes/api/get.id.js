@@ -10,7 +10,7 @@ const markdownIt = require('markdown-it')({ html: true });
  * Retrieve a fragment's data from the database and convert to .ext if needed
  */
 module.exports = (req, res) => {
-  const ownerId = crypto.createHash('sha256').update(req.user).digest('base64');
+  const ownerId = crypto.createHash('sha256').update(req.user).digest('hex').substring(0, 8);
   const id = req.params.id;
   let extension = req.params.ext;
 

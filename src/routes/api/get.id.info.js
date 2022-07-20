@@ -8,7 +8,7 @@ const crypto = require('crypto');
  * Retrieve a fragment's meta-data from the database
  */
 module.exports = (req, res) => {
-  const ownerId = crypto.createHash('sha256').update(req.user).digest('base64');
+  const ownerId = crypto.createHash('sha256').update(req.user).digest('hex').substring(0, 8);
   const id = req.params.id;
 
   Fragment.byId(ownerId, id)

@@ -11,7 +11,7 @@ const crypto = require('crypto');
 module.exports = (req, res) => {
   // Verify if user requested full metadata
   const expand = req.query.expand == 1;
-  const ownerId = crypto.createHash('sha256').update(req.user).digest('base64');
+  const ownerId = crypto.createHash('sha256').update(req.user).digest('hex').substring(0, 8);
 
   // Query the database
   Fragment.byUser(ownerId, expand)
