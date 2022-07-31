@@ -35,22 +35,12 @@ module.exports = (req, res) => {
         logger.info('FRAGMENTATION WRITE PROCESS IN POST REQUEST - Post.js');
         logger.info('----------------------------------------------');
 
-        logger.info('----------------------------------------------');
-        logger.info(process.env.AWS_REGION);
-        logger.info('----------------------------------------------');
+
+        const value = process.env.AWS_REGION ? 'TRUE' : 'FALSE';
 
         logger.info('----------------------------------------------');
-        logger.info(process.env.AWS_S3_BUCKET_NAME);
+        logger.info(value);
         logger.info('----------------------------------------------');
-
-        logger.info('----------------------------------------------');
-        logger.info(process.env.AWS_COGNITO_CLIENT_ID);
-        logger.info('----------------------------------------------');
-
-        logger.info('----------------------------------------------');
-        logger.info(contentType);
-        logger.info('----------------------------------------------');
-
 
         fragment
           .setData(req.body)
