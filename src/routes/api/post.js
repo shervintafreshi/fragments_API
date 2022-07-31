@@ -39,10 +39,16 @@ module.exports = (req, res) => {
         logger.info('VALUE OF THE AWS REGION ENVIRONMENT VAR: ', process.env.AWS_REGION);
         logger.info('----------------------------------------------');
 
-        const result = process.env.AWS_REGION ? 'Works' : 'Fails';
+        logger.info('----------------------------------------------');
+        logger.info('VALUE OF THE AWS S3 BUCKET NAME ENVIRONMENT VAR: ', process.env.AWS_S3_BUCKET_NAME);
+        logger.info('----------------------------------------------');
 
         logger.info('----------------------------------------------');
-        logger.info('RESULT OF LOGICAL ASSESSMENT: ', result);
+        logger.info('VALUE OF THE AWS COGNITO CLIENT ID ENVIRONMENT VAR: ', process.env.AWS_COGNITO_CLIENT_ID);
+        logger.info('----------------------------------------------');
+
+        logger.info('----------------------------------------------');
+        logger.info('VALUE OF THE AWS COGNITO POOL ID ENVIRONMENT VAR: ', process.env.AWS_COGNITO_POOL_ID);
         logger.info('----------------------------------------------');
 
         fragment
