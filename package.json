@@ -1,7 +1,7 @@
 {
   "name": "fragments",
   "private": true,
-  "version": "0.9.10",
+  "version": "0.9.11",
   "description": "Project Repository for DPS955 Labs",
   "scripts": {
     "test:integration": "hurl --test --glob \"tests/integration/**/*.hurl\"",
