@@ -51,10 +51,7 @@ async function writeFragmentData(ownerId, id, data) {
   };
 
   logger.info("----------------------------------------------");
-  logger.info("FRAGMENTATION WRITE PROCESS");
-  logger.info("BUCKET NAME: ", process.env.AWS_S3_BUCKET_NAME);
-  logger.info("Owner ID:", ownerId);
-  logger.info("ID: ", id);
+  logger.info("FRAGMENTATION DATA WRITE PROCESS TO S3 - aws/index.js");
   logger.info("----------------------------------------------");
 
   // Create a PUT Object command to send to S3
