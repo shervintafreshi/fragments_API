@@ -5,6 +5,7 @@ const { createErrorResponse } = require('../../../src/response');
 
 const Fragment = require('../../model/fragment');
 const crypto = require('crypto');
+const logger = require('../../logger');
 
 const apiUrl = process.env.API_URL || 'http://localhost:8080';
 
@@ -18,6 +19,10 @@ module.exports = (req, res) => {
 
   // verify the content-type is supported
   const supported = Fragment.isSupportedType(contentType);
+
+  logger.info("----------------------------------------------");
+  logger.info("FRAGMENTATION WRITE PROCESS IN POST REQUEST");
+  logger.info("----------------------------------------------");
 
   // Send an appropriate response
   if (supported) {
