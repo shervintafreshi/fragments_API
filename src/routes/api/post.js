@@ -20,9 +20,6 @@ module.exports = (req, res) => {
   // verify the content-type is supported
   const supported = Fragment.isSupportedType(contentType);
 
-  logger.info("----------------------------------------------");
-  logger.info("FRAGMENTATION WRITE PROCESS IN POST REQUEST");
-  logger.info("----------------------------------------------");
 
   // Send an appropriate response
   if (supported) {
@@ -35,6 +32,11 @@ module.exports = (req, res) => {
     fragment
       .save()
       .then(() => {
+
+        logger.info('----------------------------------------------');
+        logger.info('FRAGMENTATION WRITE PROCESS IN POST REQUEST - Post.js');
+        logger.info('----------------------------------------------');
+
         fragment
           .setData(req.body)
           .then(() => {
