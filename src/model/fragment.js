@@ -1,7 +1,6 @@
 // Parse/create content-type headers
 const contentType = require('content-type');
 const { nanoid } = require('nanoid');
-const logger = require('../logger');
 
 // Functions for working with fragment metadata/data using our DB
 const {
@@ -118,14 +117,12 @@ class Fragment {
     if (typeof data === 'undefined') {
       throw new Error('Data provided must be of type Buffer');
     }
-    logger.info('----------------------------------------------');
-    logger.info('SAVING FRAGMENT DATA IN SETDATA() - Fragment.js');
-    logger.info('----------------------------------------------');
 
     // update the size property based on the buffer size
     this.size = Buffer.byteLength(data);
     // save the updated fragment size
     this.save();
+
     return writeFragmentData(this.ownerId, this.id, data);
   }
 

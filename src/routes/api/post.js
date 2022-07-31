@@ -5,7 +5,6 @@ const { createErrorResponse } = require('../../../src/response');
 
 const Fragment = require('../../model/fragment');
 const crypto = require('crypto');
-const logger = require('../../logger');
 
 const apiUrl = process.env.API_URL || 'http://localhost:8080';
 
@@ -31,17 +30,6 @@ module.exports = (req, res) => {
     fragment
       .save()
       .then(() => {
-        logger.info('----------------------------------------------');
-        logger.info('FRAGMENTATION WRITE PROCESS IN POST REQUEST - Post.js');
-        logger.info('----------------------------------------------');
-
-
-        const value = process.env.AWS_REGION ? 'TRUE' : 'FALSE';
-
-        logger.info('----------------------------------------------');
-        logger.info(value);
-        logger.info('----------------------------------------------');
-
         fragment
           .setData(req.body)
           .then(() => {

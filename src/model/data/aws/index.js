@@ -2,7 +2,7 @@
 const MemoryDB = require('../memory/memory-db');
 const s3Client = require('./s3Client');
 const { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
-const { logger } = require('../../../logger');
+const  logger  = require('../../../logger');
 
 // Create two in-memory databases: one for fragment metadata and the other for raw data
 const data = new MemoryDB();
@@ -50,9 +50,6 @@ async function writeFragmentData(ownerId, id, data) {
     Body: data,
   };
 
-  logger.info("----------------------------------------------");
-  logger.info("FRAGMENTATION DATA WRITE PROCESS TO S3 - aws/index.js");
-  logger.info("----------------------------------------------");
 
   // Create a PUT Object command to send to S3
   const command = new PutObjectCommand(params);
@@ -122,7 +119,7 @@ async function deleteFragment(ownerId, id) {
     // Use our client to send the command
     await s3Client.send(command);
     // Delete the metadata from the in-memory DB
-    await metadata.delete(ownerId, id);
+    await metadata.del(ownerId, id);
   } catch (err) {
     // If anything goes wrong, log enough info that we can debug
     const { Bucket, Key } = params;
