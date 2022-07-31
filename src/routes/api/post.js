@@ -20,7 +20,6 @@ module.exports = (req, res) => {
   // verify the content-type is supported
   const supported = Fragment.isSupportedType(contentType);
 
-
   // Send an appropriate response
   if (supported) {
     // add the fragment to the DB
@@ -32,9 +31,18 @@ module.exports = (req, res) => {
     fragment
       .save()
       .then(() => {
-
         logger.info('----------------------------------------------');
         logger.info('FRAGMENTATION WRITE PROCESS IN POST REQUEST - Post.js');
+        logger.info('----------------------------------------------');
+
+        logger.info('----------------------------------------------');
+        logger.info('VALUE OF THE AWS REGION ENVIRONMENT VAR: ', process.env.AWS_REGION);
+        logger.info('----------------------------------------------');
+
+        const result = process.env.AWS_REGION ? 'Works' : 'Fails';
+
+        logger.info('----------------------------------------------');
+        logger.info('RESULT OF LOGICAL ASSESSMENT: ', result);
         logger.info('----------------------------------------------');
 
         fragment
