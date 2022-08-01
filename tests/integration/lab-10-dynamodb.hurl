@@ -3,9 +3,9 @@
 # 1. POST a new JSON fragment as an authorized user
 POST http://localhost:8080/v1/fragments
 Authorization: Basic dXNlcjFAZW1haWwuY29tOnBhc3N3b3JkMQ==
-Content-Type: application/json
+
 {
-    "service": "DynamoDB",
+    "service": "DynamoDB"
 }
 
 HTTP/1.1 201
@@ -71,6 +71,7 @@ HTTP/1.1 404
 # 9. GET all of the fragments for the same authorized user without expanding them
 GET http://localhost:8080/v1/fragments?expand=false
 
+HTTP/1.1 200
 [Asserts]
 jsonpath "$.fragments" count == 1
 jsonpath "$.fragments[0]" == {{fragment2_id}}
