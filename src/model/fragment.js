@@ -69,7 +69,7 @@ class Fragment {
     if (typeof result === 'undefined') {
       return Promise.reject(new Error());
     }
-    return result;
+    return new Fragment(result);
   }
 
   /**
