@@ -3,7 +3,6 @@ const MemoryDB = require('./memory-db');
 // Create two in-memory databases: one for fragment metadata and the other for raw data
 const data = new MemoryDB();
 const metadata = new MemoryDB();
-const logger = require('./../../../logger');
 
 // Write a fragment's metadata to memory db. Returns a Promise
 function writeFragment(fragment) {
@@ -17,10 +16,6 @@ function readFragment(ownerId, id) {
 
 // Write a fragment's data to memory db. Returns a Promise
 function writeFragmentData(ownerId, id, value) {
-  logger.info('----------------------------------------------');
-  logger.info('WRITING FRAGMENT DATA TO DB - memory/index.js');
-  logger.info('----------------------------------------------');
-
   return data.put(ownerId, id, value);
 }
 
