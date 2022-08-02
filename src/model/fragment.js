@@ -29,7 +29,7 @@ class Fragment {
     }
 
     if (typeof created === 'undefined' || typeof updated === 'undefined') {
-      const isoDate = new Date();
+      const isoDate = (new Date).toISOString();
       this.created = isoDate;
       this.updated = isoDate;
     } else {
@@ -87,7 +87,7 @@ class Fragment {
    * @returns Promise
    */
   async save() {
-    const isoDate = new Date();
+    const isoDate = (new Date).toISOString();
     const currentFragment = new Fragment({
       id: this.id,
       ownerId: this.ownerId,
