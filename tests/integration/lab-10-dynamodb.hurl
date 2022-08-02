@@ -48,10 +48,10 @@ Authorization: Basic dXNlcjFAZW1haWwuY29tOnBhc3N3b3JkMQ==
 
 HTTP/1.1 200
 [Asserts]
-# jsonpath "$.fragments" count == 2
+jsonpath "$.fragments" count == 2
 jsonpath "$.fragments[*]" includes "{{fragment1_id}}"
 jsonpath "$.fragments[*]" includes "{{fragment2_id}}"
-  
+
 # 6. Try to DELETE the fragment we just posted by its URL
 DELETE http://localhost:8080/v1/fragments/{{fragment1_id}}
 Authorization: Basic dXNlcjFAZW1haWwuY29tOnBhc3N3b3JkMQ==
@@ -70,5 +70,5 @@ Authorization: Basic dXNlcjFAZW1haWwuY29tOnBhc3N3b3JkMQ==
 
 HTTP/1.1 200
 [Asserts]
-# jsonpath "$.fragments" count == 1
+jsonpath "$.fragments" count == 1
 jsonpath "$.fragments[0]" == {{fragment2_id}}
