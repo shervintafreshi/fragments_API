@@ -38,4 +38,7 @@ router.get('/fragments/:id/info', require('./get.id.info'));
 // Define our fifth route, which will be: DELETE /v1/fragments/:id
 router.delete('/fragments/:id', require('./delete.id'));
 
+// Define our sixth route, which will be: PUT /v1/fragments/:id
+router.put('/fragments/:id', require('./put.id'));
+
 module.exports = router;
