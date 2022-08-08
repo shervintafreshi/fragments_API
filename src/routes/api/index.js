@@ -30,7 +30,7 @@ router.post(
 );
 
 // Define our third route, which will be: GET /v1/fragments/:id.\:ext?
-router.get('/fragments/:id\.:ext?', require('./get.id'));
+router.get('/fragments/:id.:ext?', require('./get.id'));
 
 // Define our fourth route, which will be: GET /v1/fragments/:id/info
 router.get('/fragments/:id/info', require('./get.id.info'));
@@ -39,6 +39,19 @@ router.get('/fragments/:id/info', require('./get.id.info'));
 router.delete('/fragments/:id', require('./delete.id'));
 
 // Define our sixth route, which will be: PUT /v1/fragments/:id
-router.put('/fragments/:id', require('./put.id'));
+router.put(
+  '/fragments/:id',
+  express.raw({
+    inflate: true,
+    limit: '5mb',
+    type: (req) => {
+      // a Buffer (e.g., `Buffer.isBuffer(req.body) === true`). If not, `req.body`
+      // will be equal to an empty Object `{}` and `Buffer.isBuffer(req.body) === false`
+      const { type } = contentType.parse(req);
+      return Fragment.isSupportedType(type);
+    },
+  }),
+  require('./put.id')
+);
 
 module.exports = router;
