@@ -42,7 +42,7 @@ module.exports = (req, res) => {
           400,
           'Content-Type of the request does not match the existing fragments type'
         );
-        res.status(404).json(responseData);
+        res.status(400).json(responseData);
       }
     })
     .catch((error) => {
