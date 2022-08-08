@@ -155,12 +155,24 @@ class Fragment {
     if (this.type == 'text/plain' || this.type == 'text/plain; charset=utf-8') {
       conversionTypes.push('text/plain');
     } else if (this.type == 'text/markdown') {
-      conversionTypes.push('text/html');
+      conversionTypes.push(['text/html', 'text/markdown', 'text/plain']);
+    } else if (this.type == 'text/html') {
+      conversionTypes.push(['text/html', 'text/plain']);
+    } else if (this.type == 'application/json') {
+      conversionTypes.push(['application/json', 'text/plain']);
+    } else if (this.type == 'image/png') {
+      conversionTypes.push(['image/png', 'image/jpg', 'image/webp', 'image/gif']);
+    } else if (this.type == 'image/jpeg') {
+      conversionTypes.push(['image/png', 'image/jpg', 'image/webp', 'image/gif']);
+    } else if (this.type == 'image/webp'){
+      conversionTypes.push(['image/png', 'image/jpg', 'image/webp', 'image/gif']);
+    } else if (this.type == 'image/gif'){
+      conversionTypes.push(['image/png', 'image/jpg', 'image/webp', 'image/gif']);
     }
 
     return conversionTypes;
   }
-
+ 
   /**
    * Returns true if we know how to work with this content type
    * @param {string} value a Content-Type value (e.g., 'text/plain' or 'text/plain: charset=utf-8')
@@ -174,6 +186,10 @@ class Fragment {
       'text/markdown',
       'text/html',
       'application/json',
+      'image/png',
+      'image/jpeg',
+      'image/webp',
+      'image/gif'
     ];
     return supportedTypes.includes(value);
   }
