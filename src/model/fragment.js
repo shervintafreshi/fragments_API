@@ -29,7 +29,7 @@ class Fragment {
     }
 
     if (typeof created === 'undefined' || typeof updated === 'undefined') {
-      const isoDate = (new Date).toISOString();
+      const isoDate = new Date().toISOString();
       this.created = isoDate;
       this.updated = isoDate;
     } else {
@@ -87,7 +87,7 @@ class Fragment {
    * @returns Promise
    */
   async save() {
-    const isoDate = (new Date).toISOString();
+    const isoDate = new Date().toISOString();
     const currentFragment = new Fragment({
       id: this.id,
       ownerId: this.ownerId,
@@ -151,28 +151,25 @@ class Fragment {
    */
   get formats() {
     let conversionTypes = [];
-    // Currently supporting the text/plain data mime-type
     if (this.type == 'text/plain' || this.type == 'text/plain; charset=utf-8') {
       conversionTypes.push('text/plain');
     } else if (this.type == 'text/markdown') {
-      conversionTypes.push(['text/html', 'text/markdown', 'text/plain']);
+      conversionTypes.push('text/html', 'text/markdown', 'text/plain');
     } else if (this.type == 'text/html') {
-      conversionTypes.push(['text/html', 'text/plain']);
+      conversionTypes.push('text/html', 'text/plain');
     } else if (this.type == 'application/json') {
-      conversionTypes.push(['application/json', 'text/plain']);
-    } else if (this.type == 'image/png') {
-      conversionTypes.push(['image/png', 'image/jpg', 'image/webp', 'image/gif']);
-    } else if (this.type == 'image/jpeg') {
-      conversionTypes.push(['image/png', 'image/jpg', 'image/webp', 'image/gif']);
-    } else if (this.type == 'image/webp'){
-      conversionTypes.push(['image/png', 'image/jpg', 'image/webp', 'image/gif']);
-    } else if (this.type == 'image/gif'){
-      conversionTypes.push(['image/png', 'image/jpg', 'image/webp', 'image/gif']);
+      conversionTypes.push('application/json', 'text/plain');
+    } else if (
+      this.type == 'image/png' ||
+      this.type == 'image/jpeg' ||
+      this.type == 'image/webp' ||
+      this.type == 'image/gif'
+    ) {
+      conversionTypes.push('image/png', 'image/jpeg', 'image/webp', 'image/gif');
     }
-
     return conversionTypes;
   }
- 
+
   /**
    * Returns true if we know how to work with this content type
    * @param {string} value a Content-Type value (e.g., 'text/plain' or 'text/plain: charset=utf-8')
@@ -189,9 +186,36 @@ class Fragment {
       'image/png',
       'image/jpeg',
       'image/webp',
-      'image/gif'
+      'image/gif',
     ];
     return supportedTypes.includes(value);
+  }
+
+  /**
+   * Returns the formatted mime-type based on the shortform extension type passed
+   * @param {string} extension an extension identifier (e.g., 'txt' or 'jpg')
+   * @returns {string} the formatted mime-type (e.g., 'application/json' or 'image/png')
+   */
+  static convertExtension(extension) {
+    let formattedType = null;
+
+    if (extension == 'html' || extension == 'txt' || extension == 'md') {
+      if (extension == 'txt') extension = 'plain';
+      else if (extension == 'md') extension = 'markdown';
+      formattedType = 'text/' + extension;
+    } else if (extension == 'json') {
+      formattedType = 'application/' + extension;
+    } else if (
+      extension == 'png' ||
+      extension == 'jpg' ||
+      extension == 'webp' ||
+      extension == 'gif'
+    ) {
+      if (extension == 'jpg') extension = 'jpeg';
+      formattedType = 'image/' + extension;
+    }
+
+    return formattedType;
   }
 }
 

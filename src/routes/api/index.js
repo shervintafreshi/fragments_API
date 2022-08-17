@@ -30,7 +30,7 @@ router.post(
 );
 
 // Define our third route, which will be: GET /v1/fragments/:id.\:ext?
-router.get('/fragments/:id.:ext?', require('./get.id'));
+router.get('/fragments/:id\.:ext?', require('./get.id'));
 
 // Define our fourth route, which will be: GET /v1/fragments/:id/info
 router.get('/fragments/:id/info', require('./get.id.info'));
