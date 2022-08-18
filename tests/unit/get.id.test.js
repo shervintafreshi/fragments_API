@@ -57,6 +57,36 @@ describe('GET /v1/fragments/:id', () => {
     expect(res2.text).toEqual('<h1>This is a fragment</h1>');
   });
 
+  // Using valid credentials to request for markdown content to be converted to plain text works
+  test('authenticated requests for markdown content converted to Text work properly', async () => {
+    const res1 = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'text/markdown')
+      .send('# This is a fragment');
+
+    const res2 = await request(app)
+      .get(`/v1/fragments/${res1.body.fragment.id}.txt`)
+      .auth('user1@email.com', 'password1');
+    expect(res2.statusCode).toBe(200);
+    expect(res2.text).toEqual('This is a fragment');
+  });
+
+  // Using valid credentials to request for HTML content to be converted to plain text works
+  test('authenticated requests for HTML content converted to text work properly', async () => {
+    const res1 = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'text/html')
+      .send('<h1>This is a fragment</h1>');
+
+    const res2 = await request(app)
+      .get(`/v1/fragments/${res1.body.fragment.id}.txt`)
+      .auth('user1@email.com', 'password1');
+    expect(res2.statusCode).toBe(200);
+    expect(res2.text).toEqual('THIS IS A FRAGMENT');
+  });
+
   // Using valid credentials to request for markdown content to be converted to incompatible type fails
   test('authenticated requests for markdown content converted to unsupported type are denied', async () => {
     const res1 = await request(app)

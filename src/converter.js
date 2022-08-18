@@ -1,6 +1,6 @@
 const markdownIt = require('markdown-it')({ html: true });
-const removeMarkdown = require('markdown-to-text');
 const sharp = require('sharp');
+const { markdownToTxt } = require('markdown-to-txt');
 const { convert } = require('html-to-text');
 
 
@@ -40,13 +40,13 @@ function convertMarkdown(content, conversionType){
   if (conversionType == 'text/html')
     convertedData = markdownIt.render(content.toString()).trim();
   else if (conversionType == 'text/plain')
-    convertedData = removeMarkdown(content);
+    convertedData = markdownToTxt(content.toString());
   return convertedData;
 }
 
 // html conversion
 function convertHtml(content) {
-  return convert(content.toString(), {wordwrap: 130});
+  return convert(content.toString());
 }
 
 // image conversion
