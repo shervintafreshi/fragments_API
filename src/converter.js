@@ -52,7 +52,6 @@ function convertHtml(content) {
 // image conversion
 async function convertImage(content, conversionType){
   let convertedImage = null;
-  console.log(content);
   if (conversionType == 'image/png')
     convertedImage = await sharp(content).toFormat('png').toBuffer();
   else if (conversionType == 'image/jpeg')
