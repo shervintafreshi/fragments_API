@@ -1,6 +1,6 @@
 # Fragments
 
-Project repository for DPS955 labs.
+Primarily created to display the usage of various AWS cloud services such as EC2, S3, and DynamoDB integrated within a REST API.
 
 ## Script Execution
 
